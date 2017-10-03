@@ -12,6 +12,7 @@ Submitted on:
 
 #include "../myCrypto.h"
 
+#define FILE_SIZE 51246445
 int main ( int argc , char * argv[] )
 {
 
@@ -19,6 +20,7 @@ int main ( int argc , char * argv[] )
     ERR_load_crypto_strings();
     OpenSSL_add_all_algorithms();
     OPENSSL_config(NULL);
+    uint8_t buffer[FILE_SIZE];
 
     if( argc < 3 )
     {
@@ -44,11 +46,14 @@ int main ( int argc , char * argv[] )
         exit(-1) ;
     }
 
+    uint8_t *digest;   
     fprintf( log , "This is Amal. Starting to digest the input file\n");
 
-
     // ....
-
+    fileDigest(fd_in, digest, fd_ctrl);
+    
+    read(
+    write(fd_data,  
     
     EVP_cleanup();
     ERR_free_strings();
