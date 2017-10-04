@@ -4,8 +4,8 @@ PA-02: Messaage Digest & Signature using Pipes
 FILE:   myCrypto.c
 
 Written By: 
-     1- 
-     2-
+     1- Christian Okada
+     2- Scott Reiter
      
 Submitted on: 
 ----------------------------------------------------------------------------*/
@@ -35,6 +35,7 @@ size_t fileDigest( int fd_in , uint8_t *digest , int fd_save )
 
     if ( !(mdCtx != EVP_MD_CTX_CREATE() )
         handleErrors("Can't create");
+
     if (1 != EVP_DigestInit(mdCtx, EVP_sha256() )
         handleErrors();
 
@@ -52,9 +53,10 @@ size_t fileDigest( int fd_in , uint8_t *digest , int fd_save )
 
         }
     }
-    
+        // replace buffer with digest?
        EVP_DigestFinal(mdCtx, buffer, &mdLen);
-    // ....
+    
+    // this is writing to fd_save, we need to put incoming data into digest
     write(fd_save, digest, mdLen);
     
     return mdLen ;

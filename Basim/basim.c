@@ -4,8 +4,8 @@ PA-02: Messaage Digest & Signature using Pipes
 FILE:   basim.c
 
 Written By: 
-     1- 
-     2-
+     1- Christian Okada
+     2- Scott Reiter
      
 Submitted on: 
 ----------------------------------------------------------------------------*/
