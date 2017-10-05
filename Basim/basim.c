@@ -19,6 +19,7 @@ int main ( int argc , char * argv[] )
     ERR_load_crypto_strings();
     OpenSSL_add_all_algorithms();
     OPENSSL_config(NULL);
+    uint8_t buffer[FILE_SIZE];
 
     if( argc < 3 )
     {
@@ -47,6 +48,8 @@ int main ( int argc , char * argv[] )
     fprintf( log , "This is Basim. Starting to receive incoming file and compute its digest\n");
 
     // ....
+    READ(fd_data, buffer, FILE_SIZE);
+    WRITE(fd_out, buffer, FILE_SIZE);
 
     EVP_cleanup();
     ERR_free_strings();

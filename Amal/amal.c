@@ -50,11 +50,10 @@ int main ( int argc , char * argv[] )
     fprintf( log , "This is Amal. Starting to digest the input file\n");
 
     // ....
-    fileDigest(fd_in, digest, fd_ctrl);
-    
+    // fileDigest(fd_in, digest, fd_ctrl);
     
     Read(fd_in, buffer, FILE_SIZE);
-    Write(fd_out, buffer, FILE_SIZE);
+    Write(fd_data, buffer, FILE_SIZE);
     
     EVP_cleanup();
     ERR_free_strings();

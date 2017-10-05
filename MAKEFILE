@@ -1,0 +1,16 @@
+# HEADERS dispatcher.h wrappers.h
+
+# dispatcher: dispatcher.o wrappers.o
+
+
+
+
+
+default:
+	gcc -o dispatcher dispatcher.c
+	gcc -o wrappers wrappers.c
+	gcc -o myCrypto myCrypto.c
+	gcc -o amal amal/amal.c
+	gcc-o basim basim/basim.c
+clean:
+	rm dispatcher amal/amal basim/basim
