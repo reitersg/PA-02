@@ -48,8 +48,7 @@ int main( int argc , char *argv[] )
         
         // Now, Start Amal
         char * cmnd = "./amal/amal" ;
-        execlp( cmnd , "Amal" , arg1 , arg2 , NULL );
-
+        execlp( cmnd , "amal" , arg1 , arg2 , NULL );
         // the above execlp() only returns if an error occurs
         perror("ERROR starting Amal" );
         exit(-1) ;      
@@ -69,8 +68,7 @@ int main( int argc , char *argv[] )
             snprintf( arg2 , 20 , "%d" , AtoB_data[READ_END] ) ;
 
             char * cmnd = "./basim/basim" ;
-            execlp( cmnd , "Basim" , arg1 , arg2 , NULL );
-
+            execlp( cmnd , "basim" , arg1 , arg2 , NULL );
             // the above execlp() only returns if an error occurs
             perror("ERROR starting Basim" ) ;
             exit(-1) ;
