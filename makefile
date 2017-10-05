@@ -9,19 +9,19 @@ dispatcher.o: dispatcher.c wrappers.h
 	cc -c dispatcher.c -o dispatcher.o 	
 
 Amal/amal: Amal/amal.o wrappers.o myCrypto.o
-	cc amal.o wrappers.o myCrypto.o -o Amal/amal
+	cc Amal/amal.o wrappers.o myCrypto.o -o Amal/amal
 
 Basim/basim: Basim/basim.o wrappers.o myCrypto.o
-	cc basim.o wrappers.o myCrypto.o -o Basim/basim
+	cc Basim/basim.o wrappers.o myCrypto.o -o Basim/basim
 
 Amal/amal.o: Amal/amal.c wrappers.h myCrypto.h
-	cc -c Amal/amal.c -o Amal/amal.o
+	cc -c -lcrypto Amal/amal.c -o Amal/amal.o
 Basim/basim.o: Basim/basim.c wrappers.h myCrypto.h
-	cc -c Basim/basim.c -o Basim/basim.o
+	cc -c -lcrypto Basim/basim.c -o Basim/basim.o
 
 wrappers.o: wrappers.c wrappers.h
 	cc -c wrappers.c -o
 myCrypto.o: myCrypto.c myCrypto.h
-	cc -c myCrypto.c -o myCrypto.o 
+	cc -c -lcrypto myCrypto.c -o myCrypto.o
 clean:
 	rm dispatcher Amal/amal Basim/basim

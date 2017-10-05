@@ -11,6 +11,11 @@ Submitted on:
 ----------------------------------------------------------------------------*/
 
 #include "myCrypto.h"
+#include <openssl/ssl.h>
+#include <openssl/evp.h>
+#include <openssl/conf.h>
+#include <openssl/err.h>
+#include <openssl/bio.h>
 
 void handleErrors( char *msg)
 {
@@ -30,14 +35,14 @@ size_t fileDigest( int fd_in , uint8_t *digest , int fd_save )
 {
     unsigned int  mdLen ;
     uint8_t buffer[INPUT_CHUNK];
-    EVP_MD_ctx *mdCtx;
+    EVP_MD_CTX *mdCtx;
     int nBytes;
 
-    if ( !(mdCtx != EVP_MD_CTX_CREATE() )
+    if ( !(mdCtx != EVP_MD_CTX_create() ))
         handleErrors("Can't create");
 
-    if (1 != EVP_DigestInit(mdCtx, EVP_sha256() )
-        handleErrors();
+    if (1 != EVP_DigestInit(mdCtx, EVP_sha256() ))
+        handleErrors("Can't initialize");
 
     while (1) {
         nBytes = read (fd_in, buffer, INPUT_CHUNK);
@@ -46,7 +51,7 @@ size_t fileDigest( int fd_in , uint8_t *digest , int fd_save )
         }
         
         if (1 != EVP_DigestUpdate(mdCtx, buffer, nBytes) )
-                handleErrors();
+                handleErrors("Can't Update");
 
        if (fd_save > 0) {
             write(fd_save, buffer, nBytes);
