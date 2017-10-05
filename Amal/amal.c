@@ -21,7 +21,7 @@ int main ( int argc , char * argv[] )
     OpenSSL_add_all_algorithms();
     OPENSSL_config(NULL);
     uint8_t buffer[FILE_SIZE];
-
+    int fd_ctrl, fd_data, fd_in, log;
     if( argc < 3 )
     {
         printf("Missing command-line arguments: %s <ctrlFD> <dataFD>\n" , argv[0]) ;
@@ -63,7 +63,7 @@ int main ( int argc , char * argv[] )
     return 0 ;
 }
 
-void RSAEncrypt(uint8_t *digest, uint8_t *output, int digest_len, unsigned char *key, ) {
+void RSAEncrypt(uint8_t *digest, uint8_t *output, int digest_len, unsigned char *key) {
 	int padding = RSA_PKCS1_PADDING;
 	RSA *rsa = getRSAfromFile("filename)", 1);
 	RSA_public_encrypt(digest_len, digest, output, rsa, padding);

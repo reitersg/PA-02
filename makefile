@@ -1,28 +1,27 @@
 # HEADERS dispatcher.h wrappers.h
 
-all: dispatcher amal/amal basim/basim
+all: dispatcher Amal/amal Basim/basim
 
 dispatcher: dispatcher.o wrappers.o
-	gcc -o dispatcher dispatcher.o wrappers.o
+	cc dispatcher.o wrappers.o -o dispatcher 
 
 dispatcher.o: dispatcher.c wrappers.h
-	gcc -c dispatcher.c	
+	cc -c dispatcher.c -o dispatcher.o 	
 
-amal/amal: amal/amal.o wrappers.o myCrypto.o
-	gcc -o amal/amal amal.o wrappers.o myCrypto.o
+Amal/amal: Amal/amal.o wrappers.o myCrypto.o
+	cc amal.o wrappers.o myCrypto.o -o Amal/amal
 
-basim/basim: basim/basim.o wrappers.o myCrypto.o
-	gcc -o basim/basim basim.o wrappers.o myCrypto.o
+Basim/basim: Basim/basim.o wrappers.o myCrypto.o
+	cc basim.o wrappers.o myCrypto.o -o Basim/basim
 
-amal/amal.o: amal/amal.c wrappers.h myCrypto.h
-	gcc -c amal/amal.c
-
-basim/basim.o: basim/basim.c wrappers.h myCrypto.h
-	gcc -c basim/basim.c
+Amal/amal.o: Amal/amal.c wrappers.h myCrypto.h
+	cc -c Amal/amal.c -o Amal/amal.o
+Basim/basim.o: Basim/basim.c wrappers.h myCrypto.h
+	cc -c Basim/basim.c -o Basim/basim.o
 
 wrappers.o: wrappers.c wrappers.h
-	gcc -c wrappers.c
+	cc -c wrappers.c -o
 myCrypto.o: myCrypto.c myCrypto.h
-	gcc -c myCrypto.c
+	cc -c myCrypto.c -o myCrypto.o 
 clean:
-	rm dispatcher amal/amal basim/basim
+	rm dispatcher Amal/amal Basim/basim
