@@ -11,11 +11,9 @@ Submitted on:
 ----------------------------------------------------------------------------*/
 
 #include "../myCrypto.h"
-#include "../wrappers.h"
 #define FILE_SIZE 51246445
 int main ( int argc , char * argv[] )
 {
-
     /* Initialise the crypto library */
     ERR_load_crypto_strings();
     OpenSSL_add_all_algorithms();
@@ -54,9 +52,6 @@ int main ( int argc , char * argv[] )
     // ....
     // fileDigest(fd_in, digest, fd_ctrl);
     
-    Read(fd_in, buffer, FILE_SIZE);
-    Write(fd_data, buffer, FILE_SIZE);
-    
     EVP_cleanup();
     ERR_free_strings();
 
@@ -71,3 +66,4 @@ void RSAEncrypt(uint8_t *digest, uint8_t *output, int digest_len, unsigned char 
 	RSA_public_encrypt(digest_len, digest, output, rsa, padding);
 	
 }
+

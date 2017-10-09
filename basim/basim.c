@@ -12,7 +12,6 @@ Submitted on:
 
 
 #include "../myCrypto.h"
-#include "../wrappers.h"
 #define FILE_SIZE 51246445
 
 int main ( int argc , char * argv[] )
@@ -54,8 +53,7 @@ int main ( int argc , char * argv[] )
     fprintf( log , "This is Basim. Starting to receive incoming file and compute its digest\n");
 
     // ....
-    Read(fd_data, buffer, FILE_SIZE);
-    Write(fd_out, buffer, FILE_SIZE);
+    
 
     EVP_cleanup();
     ERR_free_strings();
