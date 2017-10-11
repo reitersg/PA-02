@@ -11,6 +11,8 @@ Submitted on:
 ----------------------------------------------------------------------------*/
 
 #include "../myCrypto.h"
+
+
 #define FILE_SIZE 51246445
 int main ( int argc , char * argv[] )
 {
@@ -46,7 +48,15 @@ int main ( int argc , char * argv[] )
         exit(-1) ;
     }
 
-    uint8_t *digest;   
+    uint8_t *digest;
+    int fd_save;
+    size_t hash = fileDigest(fdin, &digest, fd_save);
+ 
+    size_t read_val
+    while ((read_val = read(fdin, buffer, INPUT)) > 0) {
+	write(fd_data, buffer, read_val);
+    }
+
     fprintf( log , "This is Amal. Starting to digest the input file\n");
 
     // ....

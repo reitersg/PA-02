@@ -53,18 +53,22 @@ size_t fileDigest( int fd_in , uint8_t *digest , int fd_save )
         if (1 != EVP_DigestUpdate(mdCtx, buffer, nBytes) )
                 handleErrors("Can't Update");
 
-       if (fd_save > 0) {
+        if (fd_save > 0) {
             write(fd_save, buffer, nBytes);
 
         }
     }
         // replace buffer with digest?
-       EVP_DigestFinal(mdCtx, buffer, &mdLen);
+    if (1 != EVP_DigestFinal(mdCtx, digest, &mdLen) ) {
+        handleErrors("Cannot finalize");
+    }
     
     // this is writing to fd_save, we need to put incoming data into digest
     write(fd_save, digest, mdLen);
     
-    return mdLen ;
+    EVP_MD_CTX_destroy(mdCtx);
+    
+    return mdLen;
 }
 
 //-----------------------------------------------------------------------------
