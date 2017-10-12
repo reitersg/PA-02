@@ -23,7 +23,7 @@ int main ( int argc , char * argv[] )
     ERR_load_crypto_strings();
     OpenSSL_add_all_algorithms();
     OPENSSL_config(NULL);
-    uint8_t buffer[20000];
+    uint8_t buffer[100000];
     uint8_t buffer_1[600];
     uint8_t decrypted[600];
     uint8_t digest[600];
@@ -62,9 +62,9 @@ int main ( int argc , char * argv[] )
 	}
     fprintf( log , "This is Basim. Starting to receive incoming file and compute its digest\n");
   	
-    size_t read_val;
-    while ((read_val = read(fd_data, buffer, 20000)) > 0) {
-	write(fd_out, buffer, read_val);
+   size_t read_val;
+    while ((read_val = read(fd_data, buffer, 100000)) > 0) {
+	    write(fd_out, buffer, read_val);
     }
     size_t hash_size = fileDigest(fd_data, digest, fd_save);
     read(fd_ctrl, buffer_1, hash_size); 
@@ -91,7 +91,7 @@ int main ( int argc , char * argv[] )
 void RSADecrypt(uint8_t *digest, uint8_t *output, int digest_len) {
 	int padding = RSA_PKCS1_PADDING;
 	
-	RSA *rsa = getRSAfromFile("amal_pubKey.pem", 1);
+	RSA *rsa = getRSAfromFile("basim/amal_pubKey.pem", 1);
 	RSA_public_decrypt(digest_len, digest, output, rsa, padding);
 	
 }
