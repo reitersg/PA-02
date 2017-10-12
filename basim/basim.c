@@ -64,18 +64,24 @@ int main ( int argc , char * argv[] )
     fprintf( log , "This is Basim. Starting to receive incoming file and compute its digest\n");
   	
    size_t read_val;
-    while ((read_val = read(fd_data, buffer, 100000)) > 0) {
+    while ((read_val = read(fd_data, buffer, 100000)) > 0) 
+    {
 	    write(fd_out, buffer, read_val);
     }
     size_t hash_size = fileDigest(fd_data, digest, fd_save);
-    read(fd_ctrl, buffer_1, hash_size); 
-    size_t decrypt_len = RSADecrypt(buffer_1, decrypted, hash_size);
-    fprintf(log, "This is the hash_size : %zu \n", hash_size);
+    size_t fd_ctrl_len = read(fd_ctrl, buffer_1, 256);
+    BIO_dump(bio_stdout, (const char *)buffer_1, fd_ctrl_len); 
+    fprintf(log, "fd_ctrl_len = %zu\n", fd_ctrl_len);
+    size_t decrypt_len = RSADecrypt(buffer_1, decrypted, fd_ctrl_len);
+    fprintf(log, "decrypt_len = %zu\n", decrypt_len);
     BIO_dump(bio_stdout, (const char *)decrypted, decrypt_len);
-    if (memcmp(decrypted, digest, hash_size) == 0) {
+    if (memcmp(decrypted, digest, hash_size) == 0) 
+    {
 	fprintf(log, "This is Basim, the signature from Amal is valid!\n");	
-    } 
-    fprintf(log, "Signatures don't match\n");
+    } else 
+    {
+    	fprintf(log, "Signatures don't match\n");
+    }
     EVP_cleanup();
     ERR_free_strings();
 

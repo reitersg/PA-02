@@ -73,7 +73,8 @@ int main ( int argc , char * argv[] )
     fprintf(log, "This is the hash size: %zu \n", hash_size);
 
     BIO_dump( bio_stdout, (const char *)digest, hash_size);
-   size_t encryptLen = RSAEncrypt(digest, output, hash_size); 
+    size_t encryptLen = RSAEncrypt(digest, output, hash_size); 
+    BIO_dump(bio_stdout, (const char *)output, encryptLen);
     write(fd_ctrl, output, encryptLen);     
     
     EVP_cleanup();
@@ -90,7 +91,7 @@ int main ( int argc , char * argv[] )
 size_t RSAEncrypt(uint8_t *digest, uint8_t *output, int digest_len) {
 
 	int padding = RSA_PKCS1_PADDING;
-	RSA *rsa = getRSAfromFile("amal_priv_key.pem", 0);
+	RSA *rsa = getRSAfromFile("amal/amal_priv_key.pem", 0);
 	return RSA_private_encrypt(digest_len, digest, output, rsa, padding);
 	
 }

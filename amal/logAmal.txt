@@ -4,3 +4,19 @@ This is Amal. Starting to digest the input file
 This is the hash size: 32 
 0000 - e3 b0 c4 42 98 fc 1c 14-9a fb f4 c8 99 6f b9 24   ...B.........o.$
 0010 - 27 ae 41 e4 64 9b 93 4c-a4 95 99 1b 78 52 b8 55   '.A.d..L....xR.U
+0000 - 05 9e 9d da d6 25 f0 4d-81 f6 c9 d2 df 67 8a 9a   .....%.M.....g..
+0010 - db 02 f2 d3 d0 00 b7 f9-a1 b9 ff 59 c1 6c b1 c5   ...........Y.l..
+0020 - b6 9f 84 f6 a4 7b 85 1e-2a 8f 47 60 9f 40 22 58   .....{..*.G`.@"X
+0030 - 4d 62 1b f3 69 5e 08 27-79 7b c0 7a 85 e4 8a 22   Mb..i^.'y{.z..."
+0040 - 72 f2 ec db 10 8d bf 4d-f0 2c 4b f4 8a c2 59 f8   r......M.,K...Y.
+0050 - d6 a8 91 7b b8 62 6e db-64 4b 45 5d 02 15 75 e6   ...{.bn.dKE]..u.
+0060 - 25 73 13 c9 09 da be fc-97 d7 06 6d 71 2d 5d cc   %s.........mq-].
+0070 - 62 1d 4f c8 58 ac a7 15-a5 b8 0d 5e 85 0d 7c 91   b.O.X......^..|.
+0080 - 14 6d 6d cf 98 0b 3b 31-48 94 e3 58 09 21 d7 23   .mm...;1H..X.!.#
+0090 - 82 2c 6a 67 10 dd 06 3c-5b ce 0d c6 e8 e3 85 1e   .,jg...<[.......
+00a0 - c6 84 e1 31 20 3f da 50-3a 39 29 ad a5 5d 4a 15   ...1 ?.P:9)..]J.
+00b0 - 9b 5c 7a 06 eb 59 1d 1c-c6 01 f2 92 4e 7a 8e 0b   .\z..Y......Nz..
+00c0 - 3b a0 6a 39 15 27 87 ca-f7 88 c6 16 3f 80 f2 b0   ;.j9.'......?...
+00d0 - 59 19 37 84 4a 46 7e 44-e7 66 a1 29 83 ef 78 cb   Y.7.JF~D.f.)..x.
+00e0 - 14 70 a0 65 e4 69 cd 11-ad db b9 08 cc 51 7e e2   .p.e.i.......Q~.
+00f0 - aa f4 0d d0 1a 6f 62 e8-0c 63 ac 13 fe ac bb c3   .....ob..c......
