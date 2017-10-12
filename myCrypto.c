@@ -35,13 +35,13 @@ size_t fileDigest( int fd_in , uint8_t *digest , int fd_save )
 {
     unsigned int  mdLen ;
     uint8_t buffer[INPUT_CHUNK];
-    EVP_MD_CTX *mdCtx;
+    EVP_MD_CTX mdCtx;
     int nBytes;
 
-    if ( !(mdCtx != EVP_MD_CTX_create() ))
+    if ( !(&mdCtx != EVP_MD_CTX_create() ))
         handleErrors("Can't create");
 
-    if (1 != EVP_DigestInit(mdCtx, EVP_sha256() ))
+    if (1 != EVP_DigestInit_ex(&mdCtx, EVP_sha256(), NULL ))
         handleErrors("Can't initialize");
 
     while (1) {
@@ -50,7 +50,7 @@ size_t fileDigest( int fd_in , uint8_t *digest , int fd_save )
             break;
         }
         
-        if (1 != EVP_DigestUpdate(mdCtx, buffer, nBytes) )
+        if (1 != EVP_DigestUpdate(&mdCtx, buffer, nBytes) )
                 handleErrors("Can't Update");
 
         if (fd_save > 0) {
@@ -59,14 +59,14 @@ size_t fileDigest( int fd_in , uint8_t *digest , int fd_save )
         }
     }
         // replace buffer with digest?
-    if (1 != EVP_DigestFinal(mdCtx, digest, &mdLen) ) {
+    if (1 != EVP_DigestFinal_ex(&mdCtx, digest, &mdLen) ) {
         handleErrors("Cannot finalize");
     }
     
     // this is writing to fd_save, we need to put incoming data into digest
     write(fd_save, digest, mdLen);
     
-    EVP_MD_CTX_destroy(mdCtx);
+    EVP_MD_CTX_cleanup(&mdCtx);
     
     return mdLen;
 }

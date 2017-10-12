@@ -11,6 +11,7 @@ Submitted on:
 ----------------------------------------------------------------------------*/
 
 #include "../myCrypto.h"
+#define FILE_SIZE 51246445
 
 void RSAEncrypt(uint8_t *digest, uint8_t *output, int digest_len);
 
@@ -20,7 +21,7 @@ int main ( int argc , char * argv[] )
     ERR_load_crypto_strings();
     OpenSSL_add_all_algorithms();
     OPENSSL_config(NULL);
-    uint8_t buffer[32];
+    uint8_t buffer[20000];
     int fd_ctrl, fd_data, fd_in, fd_save;
     FILE *log;
     if( argc < 3 )
@@ -31,7 +32,7 @@ int main ( int argc , char * argv[] )
     fd_ctrl = atoi( argv[1] ) ;
     fd_data = atoi( argv[2] ) ;
     
-    log = fopen("amal/logAmal.txt" , "w" );
+    log = fopen("logAmal.txt" , "w" );
 
     if( ! log )
     {
@@ -41,13 +42,17 @@ int main ( int argc , char * argv[] )
     fprintf( log , "This is Amal. Will send digest to FD %d and file to FD %d\n" ,
                    fd_ctrl , fd_data );
 
-    fd_in = open("amal/bunny.mp4" , O_RDONLY , S_IRUSR | S_IWUSR ) ;
+
+    fprintf( log , "This is Amal. Will send digest to FD %d and file to FD %d\n" ,
+                   fd_ctrl , fd_data );
+
+    fd_in = open("bunny.mp4" , O_RDONLY , S_IRUSR | S_IWUSR ) ;
     if( fd_in == -1 )
     {
         fprintf( stderr , "This is Amal. Could not open input file\n");
         exit(-1) ;
     }
-    fd_save = open("amal/digest.txt", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+    fd_save = open("digest.txt", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
     if (fd_save == -1 )
     {
 	fprintf(stderr, "This is amal, could not open digest.txt\n");
@@ -57,7 +62,7 @@ int main ( int argc , char * argv[] )
     uint8_t output[600];
     size_t read_val;
     fprintf(log, "This is Amal. Starting to write to fd_data now\n");
-    while ((read_val = read(fd_in, buffer, 32)) > 0) {
+    while ((read_val = read(fd_in, buffer, 20000)) > 0) {
 	    write(fd_data, buffer, read_val);
     }
     fprintf( log , "This is Amal. Starting to digest the input file\n");

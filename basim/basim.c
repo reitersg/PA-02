@@ -23,7 +23,7 @@ int main ( int argc , char * argv[] )
     ERR_load_crypto_strings();
     OpenSSL_add_all_algorithms();
     OPENSSL_config(NULL);
-    uint8_t buffer[32];
+    uint8_t buffer[20000];
     uint8_t buffer_1[600];
     uint8_t decrypted[600];
     uint8_t digest[600];
@@ -38,7 +38,7 @@ int main ( int argc , char * argv[] )
     fd_ctrl = atoi( argv[1] ) ;
     fd_data = atoi( argv[2] ) ;
 
-    log = fopen("basim/logBasim.txt" , "w" );
+    log = fopen("logBasim.txt" , "w" );
 
     if( ! log )
     {
@@ -48,19 +48,23 @@ int main ( int argc , char * argv[] )
     fprintf( log , "This is Basim. Will receive digest from FD %d and file from FD %d\n" ,
                    fd_ctrl , fd_data );
 
-    fd_out = open("basim/bunny.mp4" , O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR ) ;
+    fd_out = open("bunny.mp4" , O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR ) ;
     if( fd_out == -1 )
     {
         fprintf( stderr , "This is Basim. Could not open output file\n");
         exit(-1) ;
     }
-    fd_save = open("basim/fd_data.txt",O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR ) ;
+    fd_save = open("fd_data.txt",O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR ) ;
 	if (fd_save == -1) 
 	{
 	    fprintf(stderr, "This is Basim, could not open a file to save digest");
 	exit(-1);
 	}
     fprintf( log , "This is Basim. Starting to receive incoming file and compute its digest\n");
+  	size_t read_val;
+    while ((read_val = read(fd_data, buffer, 20000)) > 0) {
+	write(fd_out, buffer, read_val);
+    }
     size_t hash_size = fileDigest(fd_data, digest, fd_save);
     read(fd_ctrl, buffer_1, hash_size); 
     RSADecrypt(decrypted, buffer_1, hash_size);
