@@ -14,7 +14,7 @@ Submitted on:
 #include "../myCrypto.h"
 #define FILE_SIZE 51246445
 
-void RSADecrypt(uint8_t *digest, uint8_t *output, int digest_len);
+size_t RSADecrypt(uint8_t *digest, uint8_t *output, int digest_len);
 
 int main ( int argc , char * argv[] )
 {
@@ -27,6 +27,7 @@ int main ( int argc , char * argv[] )
     uint8_t buffer_1[600];
     uint8_t decrypted[600];
     uint8_t digest[600];
+    BIO *bio_stdout;
     int fd_ctrl, fd_data, fd_out, fd_save;
     FILE *log;
 
@@ -38,8 +39,8 @@ int main ( int argc , char * argv[] )
     fd_ctrl = atoi( argv[1] ) ;
     fd_data = atoi( argv[2] ) ;
 
-    log = fopen("logBasim.txt" , "w" );
-
+    log  = fopen("basim/logBasim.txt" , "w" );
+    bio_stdout = BIO_new_fp(log, BIO_NOCLOSE);
     if( ! log )
     {
         fprintf( stderr , "This is Basim. Could not create log file\n");
@@ -48,7 +49,7 @@ int main ( int argc , char * argv[] )
     fprintf( log , "This is Basim. Will receive digest from FD %d and file from FD %d\n" ,
                    fd_ctrl , fd_data );
 
-    fd_out = open("bunny.mp4" , O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR ) ;
+    fd_out = open("basim/bunny.mp4" , O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR ) ;
     if( fd_out == -1 )
     {
         fprintf( stderr , "This is Basim. Could not open output file\n");
@@ -68,14 +69,13 @@ int main ( int argc , char * argv[] )
     }
     size_t hash_size = fileDigest(fd_data, digest, fd_save);
     read(fd_ctrl, buffer_1, hash_size); 
-    RSADecrypt(buffer_1, decrypted, hash_size);
-    // ....
-    //read(fd_ctrl, decrypted, hash);
-    //RSADecrypt(decrypted, output, hash);
-   
-   /* if (!memcmp(output, buffer, sizeof(output) == 0) {
-	
-    } */
+    size_t decrypt_len = RSADecrypt(buffer_1, decrypted, hash_size);
+    fprintf(log, "This is the hash_size : %zu \n", hash_size);
+    BIO_dump(bio_stdout, (const char *)decrypted, decrypt_len);
+    if (memcmp(decrypted, digest, hash_size) == 0) {
+	fprintf(log, "This is Basim, the signature from Amal is valid!\n");	
+    } 
+    fprintf(log, "Signatures don't match\n");
     EVP_cleanup();
     ERR_free_strings();
 
@@ -88,10 +88,8 @@ int main ( int argc , char * argv[] )
     return 0 ;
 }
 
-void RSADecrypt(uint8_t *digest, uint8_t *output, int digest_len) {
+size_t RSADecrypt(uint8_t *digest, uint8_t *output, int digest_len) {
 	int padding = RSA_PKCS1_PADDING;
-	
 	RSA *rsa = getRSAfromFile("basim/amal_pubKey.pem", 1);
-	RSA_public_decrypt(digest_len, digest, output, rsa, padding);
-	
+	return RSA_public_decrypt(digest_len, digest, output, rsa, padding);	
 }

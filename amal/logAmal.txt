@@ -1,0 +1,6 @@
+This is Amal. Will send digest to FD 4 and file to FD 6
+This is Amal. Starting to write to fd_data now
+This is Amal. Starting to digest the input file
+This is the hash size: 32 
+0000 - e3 b0 c4 42 98 fc 1c 14-9a fb f4 c8 99 6f b9 24   ...B.........o.$
+0010 - 27 ae 41 e4 64 9b 93 4c-a4 95 99 1b 78 52 b8 55   '.A.d..L....xR.U

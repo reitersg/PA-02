@@ -13,7 +13,7 @@ Submitted on:
 #include "../myCrypto.h"
 #define FILE_SIZE 51246445
 
-void RSAEncrypt(uint8_t *digest, uint8_t *output, int digest_len);
+size_t RSAEncrypt(uint8_t *digest, uint8_t *output, int digest_len);
 
 int main ( int argc , char * argv[] )
 {
@@ -23,6 +23,7 @@ int main ( int argc , char * argv[] )
     OPENSSL_config(NULL);
     uint8_t buffer[100000];
     int fd_ctrl, fd_data, fd_in, fd_save;
+    BIO *bio_stdout;
     FILE *log;
     if( argc < 3 )
     {
@@ -31,17 +32,14 @@ int main ( int argc , char * argv[] )
     }
     fd_ctrl = atoi( argv[1] ) ;
     fd_data = atoi( argv[2] ) ;
-    
     log = fopen("amal/logAmal.txt" , "w" );
+    bio_stdout = BIO_new_fp(log, BIO_NOCLOSE);
 
     if( ! log )
     {
         fprintf( stderr , "This is Amal. Could not create log file\n");
         exit(-1) ;
     }
-    fprintf( log , "This is Amal. Will send digest to FD %d and file to FD %d\n" ,
-                   fd_ctrl , fd_data );
-
 
     fprintf( log , "This is Amal. Will send digest to FD %d and file to FD %d\n" ,
                    fd_ctrl , fd_data );
@@ -72,9 +70,11 @@ int main ( int argc , char * argv[] )
     fprintf( log , "This is Amal. Starting to digest the input file\n");
 
     size_t hash_size = fileDigest(fd_in, digest, fd_save);
+    fprintf(log, "This is the hash size: %zu \n", hash_size);
 
-    RSAEncrypt(digest, output, hash_size); 
-    write(fd_ctrl, output, hash_size);     
+    BIO_dump( bio_stdout, (const char *)digest, hash_size);
+   size_t encryptLen = RSAEncrypt(digest, output, hash_size); 
+    write(fd_ctrl, output, encryptLen);     
     
     EVP_cleanup();
     ERR_free_strings();
@@ -87,10 +87,11 @@ int main ( int argc , char * argv[] )
 
 }
 
-void RSAEncrypt(uint8_t *digest, uint8_t *output, int digest_len) {
+size_t RSAEncrypt(uint8_t *digest, uint8_t *output, int digest_len) {
+
 	int padding = RSA_PKCS1_PADDING;
 	RSA *rsa = getRSAfromFile("amal_priv_key.pem", 0);
-	RSA_private_encrypt(digest_len, digest, output, rsa, padding);
+	return RSA_private_encrypt(digest_len, digest, output, rsa, padding);
 	
 }
 
