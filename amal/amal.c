@@ -12,8 +12,8 @@ Submitted on:
 
 #include "../myCrypto.h"
 
+void RSAEncrypt(uint8_t *digest, uint8_t *output, int digest_len);
 
-#define FILE_SIZE 51246445
 int main ( int argc , char * argv[] )
 {
     /* Initialise the crypto library */
@@ -49,21 +49,20 @@ int main ( int argc , char * argv[] )
     }
 
     uint8_t *digest;
-    uint8_t *output;
+    uint8_t * output;
     int fd_save;
-    size_t hash = fileDigest(fd_in, digest, fd_save);
+    size_t hash_size = fileDigest(fd_in, digest, fd_save);
  
-    //size_t read_val
-    //while ((read_val = read(fdin, buffer, INPUT)) > 0) {
-	//write(fd_data, buffer, read_val);
-    //}
+    size_t read_val;
+    while ((read_val = read(fd_in, buffer, 32)) > 0) {
+	write(fd_data, buffer, read_val);
+    }
 
     fprintf( log , "This is Amal. Starting to digest the input file\n");
 
-    // ....
-    // fileDigest(fd_in, digest, fd_ctrl);
-    RSAEncrypt(digest, output, hash); 
-    write(fd_ctrl, output, hash);     
+    RSAEncrypt(digest, output, hash_size); 
+    write(fd_ctrl, output, hash_size);     
+    
     EVP_cleanup();
     ERR_free_strings();
 

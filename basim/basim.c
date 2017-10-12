@@ -52,12 +52,13 @@ int main ( int argc , char * argv[] )
     }
 
     fprintf( log , "This is Basim. Starting to receive incoming file and compute its digest\n");
-	int fd_save;
- size_t hash = fileDigest(fd_data, digest, fd_save);
+    int fd_save;
+    //uint8_t * digest;
+    //size_t hash = fileDigest(fd_data, digest, fd_save);
 
     // ....
-    read(fd_ctrl, decrypted, hash);
-    RSADecrypt(decrypted, output, hash);
+    //read(fd_ctrl, decrypted, hash);
+    //RSADecrypt(decrypted, output, hash);
    
    /* if (!memcmp(output, buffer, sizeof(output) == 0) {
 	
