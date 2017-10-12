@@ -21,8 +21,10 @@ int main ( int argc , char * argv[] )
     ERR_load_crypto_strings();
     OpenSSL_add_all_algorithms();
     OPENSSL_config(NULL);
-    uint8_t buffer[FILE_SIZE];
-    uint8_t *decrypted;
+    uint8_t buffer[32];
+    uint8_t buffer_1[600];
+    uint8_t decrypted[600];
+    uint8_t digest[600];
     int fd_ctrl, fd_data, fd_out;
     FILE *log;
 
@@ -50,12 +52,17 @@ int main ( int argc , char * argv[] )
         fprintf( stderr , "This is Basim. Could not open output file\n");
         exit(-1) ;
     }
-
+    fd_save = open("basim/fd_data.txt",O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR ) ;
+	if (fd_save == -1) 
+	{
+	    fprintf(stderr, "This is Basim, could not open a file to save digest");
+	exit(-1);
+	}
     fprintf( log , "This is Basim. Starting to receive incoming file and compute its digest\n");
-    int fd_save;
-    //uint8_t * digest;
-    //size_t hash = fileDigest(fd_data, digest, fd_save);
-
+    uint8_t digest[600];
+    size_t hash_size = fileDigest(fd_data, digest, fd_save);
+    read(fd_ctrl, buffer_1, hash_size); 
+    RSADecrypt(decrypted, buffer_1, hash);
     // ....
     //read(fd_ctrl, decrypted, hash);
     //RSADecrypt(decrypted, output, hash);

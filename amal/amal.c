@@ -20,7 +20,7 @@ int main ( int argc , char * argv[] )
     ERR_load_crypto_strings();
     OpenSSL_add_all_algorithms();
     OPENSSL_config(NULL);
-    uint8_t buffer[FILE_SIZE];
+    uint8_t buffer[32];
     int fd_ctrl, fd_data, fd_in;
     FILE *log;
     if( argc < 3 )
@@ -48,14 +48,14 @@ int main ( int argc , char * argv[] )
         exit(-1) ;
     }
 
-    uint8_t *digest;
-    uint8_t * output;
+    uint8_t digest[600];
+    uint8_t output[600];
     int fd_save;
     size_t hash_size = fileDigest(fd_in, digest, fd_save);
  
     size_t read_val;
     while ((read_val = read(fd_in, buffer, 32)) > 0) {
-	write(fd_data, buffer, read_val);
+	    write(fd_data, buffer, read_val);
     }
 
     fprintf( log , "This is Amal. Starting to digest the input file\n");
