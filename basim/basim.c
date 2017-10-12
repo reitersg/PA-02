@@ -14,6 +14,8 @@ Submitted on:
 #include "../myCrypto.h"
 #define FILE_SIZE 51246445
 
+void RSADecrypt(uint8_t *digest, uint8_t *output, int digest_len);
+
 int main ( int argc , char * argv[] )
 {
     
@@ -25,7 +27,7 @@ int main ( int argc , char * argv[] )
     uint8_t buffer_1[600];
     uint8_t decrypted[600];
     uint8_t digest[600];
-    int fd_ctrl, fd_data, fd_out;
+    int fd_ctrl, fd_data, fd_out, fd_save;
     FILE *log;
 
     if( argc < 3 )
@@ -59,10 +61,9 @@ int main ( int argc , char * argv[] )
 	exit(-1);
 	}
     fprintf( log , "This is Basim. Starting to receive incoming file and compute its digest\n");
-    uint8_t digest[600];
     size_t hash_size = fileDigest(fd_data, digest, fd_save);
     read(fd_ctrl, buffer_1, hash_size); 
-    RSADecrypt(decrypted, buffer_1, hash);
+    RSADecrypt(decrypted, buffer_1, hash_size);
     // ....
     //read(fd_ctrl, decrypted, hash);
     //RSADecrypt(decrypted, output, hash);
