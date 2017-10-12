@@ -66,3 +66,9 @@ int main ( int argc , char * argv[] )
     return 0 ;
 }
 
+void RSADecrypt(uint8_t *digest, uint8_t *output, int digest_len, unsigned char *key) {
+	int padding = RSA_PKCS1_PADDING;
+	RSA *rsa = getRSAfromFile("amal_pubKey.pem", 1);
+	RSA_public_decrypt(digest_len, digest, output, rsa, padding);
+	
+}

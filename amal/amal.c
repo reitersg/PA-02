@@ -49,6 +49,7 @@ int main ( int argc , char * argv[] )
     }
 
     uint8_t *digest;
+    uint8_t *output;
     int fd_save;
     size_t hash = fileDigest(fd_in, digest, fd_save);
  
@@ -61,7 +62,8 @@ int main ( int argc , char * argv[] )
 
     // ....
     // fileDigest(fd_in, digest, fd_ctrl);
-    
+    RSAEncrypt(digest, output, hash); 
+    write(fd_ctrl, output, hash);     
     EVP_cleanup();
     ERR_free_strings();
 
@@ -70,10 +72,10 @@ int main ( int argc , char * argv[] )
     return 0 ;
 }
 
-void RSAEncrypt(uint8_t *digest, uint8_t *output, int digest_len, unsigned char *key) {
+void RSAEncrypt(uint8_t *digest, uint8_t *output, int digest_len) {
 	int padding = RSA_PKCS1_PADDING;
-	RSA *rsa = getRSAfromFile("filename)", 1);
-	RSA_public_encrypt(digest_len, digest, output, rsa, padding);
+	RSA *rsa = getRSAfromFile("filename)", 0);
+	RSA_private_encrypt(digest_len, digest, output, rsa, padding);
 	
 }
 
