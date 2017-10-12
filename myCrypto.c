@@ -46,7 +46,7 @@ size_t fileDigest( int fd_in , uint8_t *digest , int fd_save )
 
     while (1) {
         nBytes = read (fd_in, buffer, INPUT_CHUNK);
-        if (nBytes < 0) {
+        if (nBytes <= 0) {
             break;
         }
         

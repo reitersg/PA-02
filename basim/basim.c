@@ -61,13 +61,14 @@ int main ( int argc , char * argv[] )
 	exit(-1);
 	}
     fprintf( log , "This is Basim. Starting to receive incoming file and compute its digest\n");
-  	size_t read_val;
+  	
+    size_t read_val;
     while ((read_val = read(fd_data, buffer, 20000)) > 0) {
 	write(fd_out, buffer, read_val);
     }
     size_t hash_size = fileDigest(fd_data, digest, fd_save);
     read(fd_ctrl, buffer_1, hash_size); 
-    RSADecrypt(decrypted, buffer_1, hash_size);
+    RSADecrypt(buffer_1, decrypted, hash_size);
     // ....
     //read(fd_ctrl, decrypted, hash);
     //RSADecrypt(decrypted, output, hash);
@@ -89,6 +90,7 @@ int main ( int argc , char * argv[] )
 
 void RSADecrypt(uint8_t *digest, uint8_t *output, int digest_len) {
 	int padding = RSA_PKCS1_PADDING;
+	
 	RSA *rsa = getRSAfromFile("amal_pubKey.pem", 1);
 	RSA_public_decrypt(digest_len, digest, output, rsa, padding);
 	
