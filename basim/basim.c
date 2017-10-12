@@ -77,7 +77,8 @@ int main ( int argc , char * argv[] )
     fclose( log ) ;  
     close( fd_ctrl ) ;
     close( fd_data ) ;
-
+    close(fd_save);
+    close( fd_out );
 
     return 0 ;
 }

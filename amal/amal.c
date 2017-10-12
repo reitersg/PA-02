@@ -21,7 +21,7 @@ int main ( int argc , char * argv[] )
     OpenSSL_add_all_algorithms();
     OPENSSL_config(NULL);
     uint8_t buffer[32];
-    int fd_ctrl, fd_data, fd_in;
+    int fd_ctrl, fd_data, fd_in, fd_save;
     FILE *log;
     if( argc < 3 )
     {
@@ -47,18 +47,22 @@ int main ( int argc , char * argv[] )
         fprintf( stderr , "This is Amal. Could not open input file\n");
         exit(-1) ;
     }
-
+    fd_save = open("amal/digest.txt", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+    if (fd_save == -1 )
+    {
+	fprintf(stderr, "This is amal, could not open digest.txt\n");
+	exit(-1);
+    }
     uint8_t digest[600];
     uint8_t output[600];
-    int fd_save;
-    size_t hash_size = fileDigest(fd_in, digest, fd_save);
- 
     size_t read_val;
+    fprintf(log, "This is Amal. Starting to write to fd_data now\n");
     while ((read_val = read(fd_in, buffer, 32)) > 0) {
 	    write(fd_data, buffer, read_val);
     }
-
     fprintf( log , "This is Amal. Starting to digest the input file\n");
+
+    size_t hash_size = fileDigest(fd_in, digest, fd_save);
 
     RSAEncrypt(digest, output, hash_size); 
     write(fd_ctrl, output, hash_size);     
@@ -68,12 +72,15 @@ int main ( int argc , char * argv[] )
 
     fclose( log ) ;  
     close(fd_data);
+    close(fd_ctrl);
+    close(fd_in);
     return 0 ;
+
 }
 
 void RSAEncrypt(uint8_t *digest, uint8_t *output, int digest_len) {
 	int padding = RSA_PKCS1_PADDING;
-	RSA *rsa = getRSAfromFile("filename)", 0);
+	RSA *rsa = getRSAfromFile("amal_priv_key.pem", 0);
 	RSA_private_encrypt(digest_len, digest, output, rsa, padding);
 	
 }
